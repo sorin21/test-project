@@ -1,18 +1,28 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Joke from './Joke/Joke';
 
 class App extends Component {
+  state = {
+    jokes: [
+      { id: '1', type: 'police man', title: 'The police man and the table' },
+      { id: '2', type: 'blondes', title: 'Difference between a blonde and a brunette' },
+      { id: '1', type: 'students', title: 'The student in the middle of the night' }
+
+    ]
+  }
+  
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <Joke 
+          type={this.state.jokes[0].type} 
+          title={this.state.jokes[0].title} />
+        <Joke 
+          type={this.state.jokes[1].type} 
+          title={this.state.jokes[1].title} />
+        <Joke 
+          type={this.state.jokes[2].type} 
+          title={this.state.jokes[2].title} />
       </div>
     );
   }
