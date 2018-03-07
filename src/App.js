@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 
 import Joke from './Joke/Joke';
-// import JokeOneInput from './JokeOneInput/JokeOneInput';
+import JokeList from './JokeLists/JokeList';
 
 class App extends Component {
   state = {
@@ -18,12 +18,10 @@ class App extends Component {
     const jokeIndex = this.state.jokes.findIndex(joke => joke.id === id);
 
     // 1. get a copy of a joke object
-    const joke = { 
-        ...this.state.jokes[jokeIndex] 
-    };
+    const joke = { ...this.state.jokes[jokeIndex]};
     // 2. get the actual input value and set it to the title
     joke.title = event.target.value;
-    // 3. get a copy of joke with the updated title
+    // 3. get a copy of jokes with the updated title
     const jokes = [...this.state.jokes];
     // 4. update a specific joke that is changed
     jokes[jokeIndex] = joke;
@@ -51,6 +49,22 @@ class App extends Component {
     console.log('clicked change');
     this.setState({
       message:  event.target.value});
+  }
+
+  jokeListHandler = (event, id) => {
+    // 0. findIndex
+    const jokeIndex = this.state.jokes.findIndex((joke) => joke.id === id)
+    // 1. get a copy of a joke
+    const joke = {...this.state.jokes[jokeIndex]};
+    // 2. get the joke type
+    joke.type = event.target.value;
+    // 3. get a copy of jokes with the updated type
+    const jokes = [...this.state.jokes]
+    // 4. update a specific joke that is changed
+    jokes[jokeIndex] = joke;
+    // 5. set state jokes
+    this.setState({jokes: jokes})
+
   }
 
   render() {
@@ -92,6 +106,14 @@ class App extends Component {
         {/* <JokeOneInput 
           changed={this.changeJokeOneInput} 
           type={this.state.message} /> */}
+
+        {this.state.jokes.map((joke, index) => {
+          return <JokeList 
+            key={joke.id}
+            type={joke.type}
+            changed={(event) => this.jokeListHandler(event, joke.id)}
+            />
+        })}
       </div>
     );
   }
