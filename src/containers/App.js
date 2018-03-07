@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
-
-import Joke from './Joke/Joke';
-import JokeList from './JokeLists/JokeList';
+import Jokes from "../components/Jokes/Jokes";
+import Cockpit from "../components/Cockpit/Cockpit";
 
 class App extends Component {
   state = {
@@ -68,52 +67,22 @@ class App extends Component {
   }
 
   render() {
-    const buttonStyle = {
-      textAlign: 'center',
-      boxShadow: '0 2px 3px #ccc',
-      margin: '0 auto',
-      color: 'red',
-      border: '1px solid #aaa',
-      padding: '8px',
-      cursor: 'pointer'
-    };
 
     var jokes = null;
     if(this.state.showJokes) {
-      jokes = (
-        <div>
-          {
-            this.state.jokes.map((joke, index) => {
-              return <Joke
-                key={joke.id}
-                delete={(event) => this.deleteJokeHandler(index)}
-                changed={(event) => this.chageJokeInputHandler(event, joke.id)}
-                type={joke.type}
-                title={joke.title} />
-            })
-          }
-        </div>
-      );
+      jokes = <div>
+          <Jokes 
+            jokes={this.state.jokes} 
+            delete={this.deleteJokeHandler}
+            changed={this.chageJokeInputHandler} />
+        </div>;
     }
     return (
       <div className="App">
-        <button 
-          style={buttonStyle}
-          onClick={this.toggleJokeHandler}>Show Jokes
-        </button>
+        <Cockpit 
+          showJokes={this.state.showJokes}
+          clicked={this.toggleJokeHandler} />
         {jokes}
-
-        {/* <JokeOneInput 
-          changed={this.changeJokeOneInput} 
-          type={this.state.message} /> */}
-
-        {this.state.jokes.map((joke, index) => {
-          return <JokeList 
-            key={joke.id}
-            type={joke.type}
-            changed={(event) => this.jokeListHandler(event, joke.id)}
-            />
-        })}
       </div>
     );
   }
